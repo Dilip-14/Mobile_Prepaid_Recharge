@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="navbar-home.css">
+    <script src="navbar.js"></script>
+    <script src="transaction-handler.js"></script>
+    <title>Best Prepaid Plans</title>
+    <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f5f5f5;
+                font-size: 14px;
+                margin: 0;
+                padding: 0;
+            }
+    
+            .navbar {
+                position: fixed;
+                width: 100%;
+                top: 0;
+                z-index: 1000;
+                height: 65px;
+                background-color: #B596E5;
+                box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
+            }
+    
+            .main-content {
+                padding-top: 90px; 
+            }
+    
+            .sidebar {
+                background-color: #f5f5f5;
+                padding: 20px;
+                height: 100vh;
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+            }
+    
+            .container {
+                max-width: 1200px;
+                margin: 20px auto;
+                text-align: center;
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+    
+            h1 {
+                font-size: 22px;
+            }
+    
+            .plan-categories {
+                display: flex;
+                justify-content: center;
+                overflow-x: auto;
+                white-space: nowrap;
+                padding: 10px 0;
+                border-bottom: 2px solid #ddd;
+            }
+    
+            .plan-categories h2 {
+                display: inline-block;
+                margin-right: 20px;
+                cursor: pointer;
+                font-size: 14px;
+                color: #666;
+                padding-bottom: 5px;
+                position: relative;
+            }
+    
+            .plan-categories h2.active {
+                font-weight: bold;
+                color: #000;
+            }
+    
+            .plan-categories h2.active::after {
+                content: "";
+                position: absolute;
+                left: 0;
+                bottom: -2px;
+                width: 100%;
+                height: 2px;
+                background-color: #592e83;
+            }
+    
+            .plans-container {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+                gap: 15px; 
+            }
+    
+            .plan-card {
+                background-color: #fff;
+                padding: 10px; 
+                border-radius: 10px;
+                box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
+                text-align: center;
+                min-height: 120px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+    
+            .plan-card h2 {
+                color: #222;
+                font-size: 16px;
+                margin-bottom: 5px;
+            }
+    
+            .plan-info {
+                font-size: 11px; 
+                color: #555;
+                margin-bottom: 8px;
+            }
+    
+            .buy-button {
+                background-color: #B596E5;
+                color: black;
+                border: none;
+                padding: 5px 10px;
+                border-radius: 5px;
+                font-size: 11px; 
+                cursor: pointer;
+                text-decoration: none;
+                display: inline-block;
+            }
+    
+            .buy-button:hover {
+                background-color: #592e83;
+            }
+    
+            .card {
+                background: rgba(255, 255, 255, 0.8);
+                padding: 20px;
+                border-radius: 10px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                max-width: 300px;
+                width: 100%;
+                margin-bottom: 20px;
+            }
+    
+            .search-container {
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+            }
+    
+            .search-input {
+                width: 100%;
+                max-width: 300px;
+                padding: 10px;
+                border: 1px solid #3f11c9;
+                border-radius: 5px;
+                font-size: 14px;
+                margin-right: 10px;
+            }
+    
+            .mobile-display-container {
+                display: flex;
+                align-items: center;
+            }
+    
+            .mobile-display {
+                font-size: 18px;
+                color: #999;
+                margin-right: 10px;
+                opacity: 0.6;
+            }
+    
+            .mobile-input {
+                font-weight: normal;
+                opacity: 1;
+            }
+    
+            .change {
+                color: black;
+                font-size: 13px;
+                text-decoration: none;
+                color: #592e83;
+                position: absolute;
+                right: 10%;
+            }
+
+            .footer {
+                background-color: #1e293b;
+                color: white;
+                padding: 4rem 0 2rem;
+            }
+    
+            .footer-link {
+                color: #94a3b8;
+                text-decoration: none;
+                display: block;
+                margin-bottom: 0.5rem;
+            }
+    
+            .footer-link:hover {
+                color: white;
+            }
+    
+            .social-links a {
+                color: #94a3b8;
+                margin-right: 1rem;
+                font-size: 1.2rem;
+            }
+    
+            .store-badge {
+                height: 40px;
+                margin-right: 1rem;
+                margin-bottom: 1rem;
+            }
+    
+            @media (max-width: 768px) {
+                .plans-container {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+    
+                h1 {
+                    font-size: 18px;
+                }
+    
+                .navbar-brand {
+                    font-size: 16px;
+                }
+    
+                .sidebar {
+                    display: none;
+                }
+    
+                .mobile-display-container,
+                .search-container {
+                    width: 100%;
+                    padding: 10px;
+                    box-sizing: border-box;
+                }
+    
+                .mobile-display-container {
+                    margin-top: 20px;
+                }
+    
+                .container {
+                    margin-top: 20px;
+                }
+            }
+    
+            @media (max-width: 480px) {
+                .plans-container {
+                    grid-template-columns: 1fr;
+                }
+    
+                .sidebar {
+                    display: none;
+                }
+    
+                .mobile-display-container,
+                .search-container {
+                    width: 100%;
+                    padding: 10px;
+                    box-sizing: border-box;
+                }
+    
+                .mobile-display-container {
+                    margin-top: 20px;
+                }
+    
+                .container {
+                    margin-top: 20px;
+                }
+            }
+        
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="navbar-brand" href="Home.html">MobiFuel</a>
+            <a class="nav-link person-icon d-lg-none" href="#" id="mobileLoginTrigger"><i class="bi bi-person-circle"></i></a>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav d-flex">
+                    <li class="nav-item">
+                        <a class="nav-link" href="plans.html">Plans</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Support</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">About Us</a>
+                    </li>
+                </ul>
+            </div>
+            <a class="nav-link d-none d-lg-block" href="profile_page.html" id="usernameLink">
+                <span id="usernameDisplay"><i class="bi bi-person-circle"></i></span>
+            </a>
+        </div>
+    </nav>
+    
+    <!-- Login Popup -->
+    <div class="popup-overlay" id="popup-overlay"></div>
+    <div class="popup" id="login-popup">
+        <span class="close-icon" onclick="hidePopups()">&times;</span>
+        <h5>Enter Mobile Number</h5>
+        <input type="text" id="popup-mobileno" class="input-box small-input" placeholder="Mobile no" required>
+        <button onclick="generateOTP()">Generate OTP</button>
+        <span id="popup-phoneerror" style="display: none; color: red;">Please enter a valid phone number.</span>
+    </div>
+    
+    <div class="popup" id="otp-popup">
+        <span class="close-icon" onclick="hidePopups()">&times;</span>
+        <h5>Enter OTP</h5>
+        <input type="text" id="otp-input" class="otp-input small-input" maxlength="5" placeholder="Enter OTP">
+        <button onclick="validateOTP()">Validate OTP</button>
+        <span id="otp-error" class="small-font" style="display: none; color: red;">Invalid OTP. Please try again.</span>
+    </div>
+
+    <div class="main-content container">
+        <div class="row">
+            <div class="col-12 col-md-4 d-md-block d-none">
+                <div class="sidebar">
+                    <div class="card">
+                        <div class="mobile-display-container">
+                            <span id="mobileDisplay" class="mobile-display"></span>
+                            <a href="Home.html" class="change">CHANGE</a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="search-container">
+                            <input type="text" class="search-input" id="searchInput" placeholder="Search for plans...">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-8">
+                <div class="mobile-display-container d-md-none">
+                    <span id="mobileDisplay" class="mobile-display"></span>
+                    <a href="demo_login.html" class="change">CHANGE</a>
+                </div>
+                <div class="search-container d-md-none">
+                    <input type="text" class="search-input" id="searchInput" placeholder="Search for plans...">
+                </div>
+                <h1>Prepaid Plans</h1>
+                <div class="plan-categories">
+                    <h2 data-category="allplans" class="active">All Plans</h2>
+                    <h2 data-category="unlimited">Unlimited Plans</h2>
+                    <h2 data-category="talktime">Talktime Plans</h2>
+                    <h2 data-category="entertainment">Entertainment Plans</h2>
+                    <h2 data-category="popular">Popular Plans</h2>
+                </div>
+                <br>
+
+                <div class="plan-category" id="allplans">
+                    <div class="plans-container">
+                        <div class="plan-card">
+                            <h2>₹365</h2>
+                            <p class="plan-info">Truly Unlimited Calls | 2GB/day | 28 Days | int'l roaming</p>
+                            <a href="#" class="buy-button" onclick="selectPlan('₹365', 'Truly Unlimited Calls | 2GB/day | 28 Days | intl roaming')">Buy Pack</a>
+                        </div>
+                        <div class="plan-card">
+                            <h2>₹599</h2>
+                            <p class="plan-info">Truly Unlimited Calls | 3GB/day | 56 Days</p>
+                            <a href="#" class="buy-button" onclick="selectPlan('₹599', 'Truly Unlimited Calls | 3GB/day | 56 Days')">Buy Pack</a>
+                        </div>
+                        <div class="plan-card">
+                            <h2>₹99</h2>
+                            <p class="plan-info">₹99 Talktime | 200MB Data | 28 Days</p>
+                            <a href="#" class="buy-button" onclick="selectPlan('₹99', '₹99 Talktime | 200MB Data | 28 Days')">Buy Pack</a>
+                        </div>
+                        <div class="plan-card">
+                            <h2>₹500</h2>
+                            <p class="plan-info">₹500 Talktime | 1GB Data | 60 Days</p>
+                            <a href="#" class="buy-button" onclick="selectPlan('₹500', '₹500 Talktime | 1GB Data | 60 Days')">Buy Pack</a>
+                        </div>
+                        <div class="plan-card">
+                            <h2>₹799</h2>
+                            <p class="plan-info">Unlimited Calls | 2GB/day | 84 Days + OTT</p>
+                            <a href="#" class="buy-button" onclick="selectPlan('₹799', 'Unlimited Calls | 2GB/day | 84 Days + OTT')">Buy Pack</a>
+                        </div>
+                        <div class="plan-card">
+                            <h2>₹999</h2>
+                            <p class="plan-info">Unlimited Calls | 3GB/day | 90 Days + OTT</p>
+                            <a href="#" class="buy-button" onclick="selectPlan('₹999', 'Unlimited Calls | 3GB/day | 90 Days + OTT')">Buy Pack</a>
+                        </div>
+                        <div class="plan-card">
+                            <h2>₹499</h2>
+                            <p class="plan-info">2GB/day | 56 Days</p>
+                            <a href="#" class="buy-button" onclick="selectPlan('₹499', '2GB/day | 56 Days')">Buy Pack</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="plan-category" id="unlimited" style="display: none;">
+                    <div class="plans-container">
+                        <div class="plan-card">
+                            <h2>₹365</h2>
+                            <p class="plan-info">Truly Unlimited Calls | 2GB/day | 28 Days</p>
+                            <a href="#" class="buy-button" onclick="selectPlan('₹365', 'Truly Unlimited Calls | 2GB/day | 28 Days')">Buy Pack</a>
+                        </div>
+                        <div class="plan-card">
+                            <h2>₹599</h2>
+                            <p class="plan-info">Truly Unlimited Calls | 3GB/day | 56 Days</p>
+                            <a href="#" class="buy-button" onclick="selectPlan('₹599', 'Truly Unlimited Calls | 3GB/day | 56 Days')">Buy Pack</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="plan-category" id="talktime" style="display: none;">
+                    <div class="plans-container">
+                        <div class="plan-card">
+                            <h2>₹99</h2>
+                            <p class="plan-info">₹99 Talktime | 200MB Data | 28 Days</p>
+                            <a href="#" class="buy-button" onclick="selectPlan('₹99', '₹99 Talktime | 200MB Data | 28 Days')">Buy Pack</a>
+                        </div>
+                        <div class="plan-card">
+                            <h2>₹500</h2>
+                            <p class="plan-info">₹500 Talktime | 1GB Data | 60 Days</p>
+                            <a href="#" class="buy-button" onclick="selectPlan('₹500', '₹500 Talktime | 1GB Data | 60 Days')">Buy Pack</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="plan-category" id="entertainment" style="display: none;">
+                    <div class="plans-container">
+                        <div class="plan-card">
+                            <h2>₹799</h2>
+                            <p class="plan-info">Unlimited Calls | 2GB/day | 84 Days + OTT</p>
+                            <a href="#" class="buy-button" onclick="selectPlan('₹799', 'Unlimited Calls | 2GB/day | 84 Days + OTT')">Buy Pack</a>
+                        </div>
+                        <div class="plan-card">
+                            <h2>₹999</h2>
+                            <p class="plan-info">Unlimited Calls | 3GB/day | 90 Days + OTT</p>
+                            <a href="#" class="buy-button" onclick="selectPlan('₹999', 'Unlimited Calls | 3GB/day | 90 Days + OTT')">Buy Pack</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="plan-category" id="popular" style="display: none;">
+                    <div class="plans-container">
+                        <div class="plan-card">
+                            <h2>₹299</h2>
+                            <p class="plan-info">1.5GB/day | 28 Days</p>
+                            <a href="#" class="buy-button" onclick="selectPlan('₹299', '1.5GB/day | 28 Days')">Buy Pack</a>
+                        </div>
+                        <div class="plan-card">
+                            <h2>₹499</h2>
+                            <p class="plan-info">2GB/day | 56 Days</p>
+                            <a href="#" class="buy-button" onclick="selectPlan('₹499', '2GB/day | 56 Days')">Buy Pack</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 mb-4">
+                    <h5 class="mb-3">QuickCharge</h5>
+                    <p class="text-muted">Your trusted partner for instant mobile recharges</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 mb-4">
+                    <h6 class="mb-3">Quick Links</h6>
+                    <a href="#" class="footer-link">Prepaid Plans</a>
+                    <a href="#" class="footer-link">Support</a>
+                    <a href="#" class="footer-link">Offers</a>
+                    <a href="#" class="footer-link">Recharge History</a>
+                </div>
+                
+                <div class="col-lg-3 mb-4">
+                    <h6 class="mb-3">Support</h6>
+                    <a href="#" class="footer-link">Help Center</a>
+                    <a href="#" class="footer-link">Privacy Policy</a>
+                    <a href="#" class="footer-link">Terms of Service</a>
+                    <a href="#" class="footer-link">Contact Us</a>
+                </div>
+                
+                <div class="col-lg-3 mb-4">
+                    <h6 class="mb-3">Download Our App</h6>
+                    <div>
+                        <img src="/api/placeholder/135/40" alt="App Store" class="store-badge">
+                        <img src="/api/placeholder/135/40" alt="Play Store" class="store-badge">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center pt-4 mt-4 border-top border-secondary">
+                <p class="text-muted mb-0">© 2025 QuickCharge. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const mobileNumber = urlParams.get('mobile');
+            if (mobileNumber) {
+                document.getElementById('mobileDisplay').textContent = mobileNumber;
+                localStorage.setItem('mobileNumber', mobileNumber);
+            } else {
+                const storedMobileNumber = localStorage.getItem('mobileNumber');
+                if (storedMobileNumber) {
+                    document.getElementById('mobileDisplay').textContent = storedMobileNumber;
+                }
+            }
+        });
+
+        function selectPlan(price, info) {
+            const mobileNumber = localStorage.getItem('mobileNumber');
+            if (!mobileNumber) {
+                alert("Please enter your mobile number first.");
+                window.location.href = "demo_login.html";
+                return;
+            }
+
+            const planDetails = {
+                price: price,
+                info: info
+            };
+            localStorage.setItem('planDetails', JSON.stringify(planDetails));
+            window.location.href = "transaction.html";
+        }
+
+        document.querySelectorAll('.plan-categories h2').forEach(category => {
+            category.addEventListener('click', () => {
+                document.querySelectorAll('.plan-categories h2').forEach(cat => {
+                    cat.classList.remove('active');
+                });
+                category.classList.add('active');
+
+                document.querySelectorAll('.plan-category').forEach(planCategory => {
+                    planCategory.style.display = 'none';
+                });
+                document.getElementById(category.getAttribute('data-category')).style.display = 'block';
+            });
+        });
+
+        document.getElementById('searchInput').addEventListener('input', function() {
+            const searchValue = this.value.toLowerCase();
+            document.querySelectorAll('.plan-card').forEach(card => {
+                const planInfo = card.querySelector('.plan-info').textContent.toLowerCase();
+                const planPrice = card.querySelector('h2').textContent.toLowerCase();
+                if (planInfo.includes(searchValue) || planPrice.includes(searchValue)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const mobileNumber = urlParams.get('mobile');
+        
+            if (mobileNumber) {
+                document.getElementById('mobileDisplay').textContent = mobileNumber;
+                localStorage.setItem('mobileNumber', mobileNumber);
+            }
+        });
+
+       
+        
+    </script>
+</body>
+</html>

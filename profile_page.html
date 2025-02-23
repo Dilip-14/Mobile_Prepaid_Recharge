@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TeleRecharge</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  
+    <script src="transaction-handler.js"></script>
+    <style>
+        :root {
+            --primary-color: #0d6efd;
+            --light-bg: #f8f9fa;
+            --border-radius: 8px;
+        }
+        
+        body {
+            background-color: var(--light-bg);
+            font-family: 'Arial', sans-serif;
+            
+        }
+        
+       
+        
+        .main-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 20px;
+        }
+        
+      
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .profile-section {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            height: fit-content;
+        }
+
+        .profile-header {
+            flex-direction: column;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .profile-img-container {
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .profile-img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .verified-badge {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background: var(--primary-color);
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        .profile-info {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .profile-info h4 {
+            margin: 0.5rem 0;
+            color: #333;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .profile-info p {
+            margin: 0;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .edit-profile-btn {
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .account-details {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: none;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .detail-item p {
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+        .detail-item p:first-child {
+            color: #666;
+        }
+
+        .detail-item p:last-child {
+            color: #333;
+            font-weight: 500;
+        }
+
+        .current-plan {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+        }
+
+        .plan-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+        }
+
+        .plan-title {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .plan-price {
+            color: var(--primary-color);
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .expiry-badge {
+            background: #ffeeba;
+            color: #856404;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .feature-item {
+            text-align: center;
+            padding: 1rem;
+            background: var(--light-bg);
+            border-radius: var(--border-radius);
+        }
+
+        .feature-item i {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-item p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .quick-recharge-btn {
+            width: 100%;
+            margin: 1rem 0;
+        }
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+        }
+
+        .action-btn {
+            text-align: center;
+            background: none;
+            border: none;
+            padding: 0.5rem;
+            color: #666;
+            cursor: pointer;
+        }
+
+        .action-btn:hover {
+            color: var(--primary-color);
+        }
+
+        .action-btn i {
+            font-size: 1.2rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .action-btn p {
+            margin: 0;
+            font-size: 0.8rem;
+        }
+
+        .transactions-section {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+        }
+
+        .transactions-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .transactions-header h6 {
+            margin: 0;
+            font-weight: 600;
+        }
+
+        .table th {
+            font-weight: 600;
+            color: #666;
+            padding: 1rem;
+        }
+
+        .table td {
+            padding: 1rem;
+            vertical-align: middle;
+        }
+
+        .status-success {
+            color: #28a745;
+        }
+
+        .download-icon {
+            color: var(--primary-color);
+            cursor: pointer;
+        }
+
+        .modal-header {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .features-grid,
+            .quick-actions {
+                grid-template-columns: repeat(2, 1fr);
+            }
+           
+           
+        }
+    </style>
+</head>
+<body>
+
+    <a href="Home.html" style="text-decoration: none; color:black; font-size :30px;margin-top: 10px;">MobiFuel</a>
+    <!-- Main Content -->
+    <div class="main-container">
+        <div class="dashboard-grid">
+            <!-- Profile Section -->
+            <div class="profile-section">
+                <div class="profile-header">
+                    <div class="profile-img-container">
+                        <img src="https://via.placeholder.com/80" id="profileImage" alt="Profile" class="profile-img">
+                        <span class="verified-badge"><i class="bi bi-check"></i></span>
+                    </div>
+                    <div class="profile-info">
+                        <h4 id="userName">John Anderson</h4>
+                        <p id="userEmail">john.anderson@email.com</p>
+                    </div>
+                </div>
+                <button class="btn btn-primary edit-profile-btn" data-bs-toggle="modal" data-bs-target="#editProfileModal">
+                    Edit Profile
+                </button>
+                <div class="account-details">
+                    <div class="detail-item">
+                        <p>Account Type</p>
+                        <p id="accountType">Prepaid</p>
+                    </div>
+                    <div class="detail-item">
+                        <p>Primary Number</p>
+                        <p id="primaryNumber">+1 234 567 8900</p>
+                    </div>
+                    <div class="detail-item">
+                        <p>Alternate Number</p>
+                        <p id="alternateNumber">+1 234 567 8901</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Current Plan Section -->
+            <div class="current-plan">
+                <div class="plan-header">
+                    <div>
+                        <p class="plan-title">Current Plan</p>
+                        <p class="plan-price">$49.99 - Unlimited 28 Days Pack</p>
+                    </div>
+                    <span class="expiry-badge">Expires in 7 days</span>
+                </div>
+
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <i class="bi bi-telephone"></i>
+                        <p>Unlimited Calls</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="bi bi-wifi"></i>
+                        <p>100GB Data</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="bi bi-chat"></i>
+                        <p>100 SMS/Day</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="bi bi-airplane"></i>
+                        <p>Int'l Roaming</p>
+                    </div>
+                </div>
+
+                <button class="btn btn-success quick-recharge-btn">Quick Recharge Same Plan</button>
+
+                <div class="quick-actions">
+                    <button class="action-btn">
+                        <i class="bi bi-clock-history"></i>
+                        <p>History</p>
+                    </button>
+                    <button class="action-btn">
+                        <i class="bi bi-gift"></i>
+                        <p>Rewards</p>
+                    </button>
+                    <button class="action-btn">
+                        <i class="bi bi-headset"></i>
+                        <p>Support</p>
+                    </button>
+                    <button class="action-btn">
+                        <i class="bi bi-shield"></i>
+                        <p>Security</p>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Transactions Section -->
+        <div class="transactions-section">
+            <div class="transactions-header">
+                <h6>Recent Transactions</h6>
+                <div>
+                    <button class="btn btn-sm btn-link">
+                        <i class="bi bi-funnel"></i>
+                    </button>
+                    <button class="btn btn-sm btn-link">
+                        <i class="bi bi-download"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Plan</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Receipt</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Jan 15, 2025</td>
+                            <td>Unlimited 28 Days Pack</td>
+                            <td>$49.99</td>
+                            <td><span class="status-success">Success</span></td>
+                            <td><i class="bi bi-file-earmark-arrow-down download-icon" onclick="downloadReceipt('Jan152025')"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Dec 18, 2024</td>
+                            <td>Unlimited 28 Days Pack</td>
+                            <td>$49.99</td>
+                            <td><span class="status-success">Success</span></td>
+                            <td><i class="bi bi-file-earmark-arrow-down download-icon" onclick="downloadReceipt('Dec182024')"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Nov 20, 2024</td>
+                            <td>Unlimited 28 Days Pack</td>
+                            <td>$49.99</td>
+                            <td><span class="status-success">Success</span></td>
+                            <td><i class="bi bi-file-earmark-arrow-down download-icon" onclick="downloadReceipt('Nov202024')"></i></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Profile Modal -->
+    <div class="modal fade" id="editProfileModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Profile</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editProfileForm">
+                        <div class="form-group">
+                            <label>Profile Picture</label>
+                            <input type="file" class="form-control" id="profilePicInput" accept="image/*">
+                        </div>
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input type="text" class="form-control" id="nameInput" value="John Anderson">
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" class="form-control" id="emailInput" value="john.anderson@email.com">
+                        </div>
+                        <div class="form-group">
+<label>Primary Number</label>
+                            <input type="tel" class="form-control" id="primaryNumberInput" value="+1 234 567 8900">
+                        </div>
+                        <div class="form-group">
+                            <label>Alternate Number</label>
+                            <input type="tel" class="form-control" id="alternateNumberInput" value="+1 234 567 8901">
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100 mt-3">Save Changes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a href="demo_login.html">Logout</a>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Profile Management
+        function loadProfile() {
+            if (localStorage.getItem("userEmail")) {
+                document.getElementById("userEmail").innerText = localStorage.getItem("userEmail");
+            }
+            if (localStorage.getItem("profileImage")) {
+                document.getElementById("profileImage").src = localStorage.getItem("profileImage");
+            }
+            if (localStorage.getItem("userName")) {
+                document.getElementById("userName").innerText = localStorage.getItem("userName");
+            }
+            if (localStorage.getItem("primaryNumber")) {
+                document.getElementById("primaryNumber").innerText = localStorage.getItem("primaryNumber");
+            }
+            if (localStorage.getItem("alternateNumber")) {
+                document.getElementById("alternateNumber").innerText = localStorage.getItem("alternateNumber");
+            }
+        }
+
+        // Edit Profile Form Handling
+        document.getElementById("editProfileForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+            
+            // Get form values
+            const name = document.getElementById("nameInput").value;
+            const email = document.getElementById("emailInput").value;
+            const primaryNumber = document.getElementById("primaryNumberInput").value;
+            const alternateNumber = document.getElementById("alternateNumberInput").value;
+            
+            // Save to localStorage
+            localStorage.setItem("userName", name);
+            localStorage.setItem("userEmail", email);
+            localStorage.setItem("primaryNumber", primaryNumber);
+            localStorage.setItem("alternateNumber", alternateNumber);
+            
+            // Handle profile picture
+            const profilePicInput = document.getElementById("profilePicInput");
+            if (profilePicInput.files && profilePicInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    localStorage.setItem("profileImage", e.target.result);
+                    document.getElementById("profileImage").src = e.target.result;
+                };
+                reader.readAsDataURL(profilePicInput.files[0]);
+            }
+            
+            // Update display
+            document.getElementById("userName").innerText = name;
+            document.getElementById("userEmail").innerText = email;
+            document.getElementById("primaryNumber").innerText = primaryNumber;
+            document.getElementById("alternateNumber").innerText = alternateNumber;
+            
+            // Close modal
+            const modal = bootstrap.Modal.getInstance(document.getElementById('editProfileModal'));
+            modal.hide();
+            
+            // Show success message
+            alert("Profile updated successfully!");
+        });
+
+        // Download Receipt Function
+        function downloadReceipt(dateId) {
+            // Create receipt content
+            const receiptContent = `
+                TeleRecharge Receipt
+                -------------------
+                Date: ${dateId}
+                Plan: Unlimited 28 Days Pack
+                Amount: $49.99
+                Status: Success
+                Transaction ID: ${Math.random().toString(36).substr(2, 9)}
+                
+                Thank you for using TeleRecharge!
+            `;
+            
+            // Create blob and download
+            const blob = new Blob([receiptContent], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `TeleRecharge_Receipt_${dateId}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+        }
+
+        // Initialize profile on load
+        document.addEventListener("DOMContentLoaded", function() {
+            loadProfile();
+            
+            // Initialize form with current values
+            document.getElementById("nameInput").value = localStorage.getItem("userName") || "John Anderson";
+            document.getElementById("emailInput").value = localStorage.getItem("userEmail") || "john.anderson@email.com";
+            document.getElementById("primaryNumberInput").value = localStorage.getItem("primaryNumber") || "+1 234 567 8900";
+            document.getElementById("alternateNumberInput").value = localStorage.getItem("alternateNumber") || "+1 234 567 8901";
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProfilePageData();
+        });
+    </script>
+</body>
+</html>
