@@ -176,7 +176,7 @@
     </div>
 
     <script>
-        // Dummy user details for a registered user
+        
        
 
         document.getElementById("mobileno").addEventListener("keypress", function(event) {
@@ -199,7 +199,7 @@
                 processing.style.display = "block";
                 
                 localStorage.setItem("mobileNumber", phoneInput);
-                localStorage.removeItem("username"); // Ensure user is not logged in
+                localStorage.removeItem("username"); 
     
                 setTimeout(() => {
                     window.location.href = `plans.html?mobile=${phoneInput}`;
@@ -255,7 +255,7 @@
     
             if (otpInput === registeredUser.otp) {
                 localStorage.setItem("mobileNumber", document.getElementById("popup-mobileno").value);
-                localStorage.setItem("username", registeredUser.username); // User successfully logs in
+                localStorage.setItem("username", registeredUser.username); 
                 window.location.href = "profile_page.html";
             } else {
                 document.getElementById("otp-error").style.display = "block";

@@ -204,10 +204,10 @@
         .service-card:hover, .card:hover, .plan-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-            animation: none; /* Remove shake animation */
+            animation: none;
         }
 
-        /* Remove previous shake animation */
+       
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
             10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
@@ -227,7 +227,7 @@
             box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
 
-        /* Responsive adjustments */
+       
         @media (max-width: 768px) {
             .hero-section {
                 padding: 2rem 0;
@@ -262,7 +262,7 @@
             }
         }
 
-        /* Center alignment for FAQ section */
+       
         .faq-item {
             max-width: 800px;
             margin-left: auto;
@@ -302,7 +302,7 @@
         </div>
     </nav>
     
-    <!-- Login Popup -->
+  
     <div class="popup-overlay" id="popup-overlay"></div>
     <div class="popup" id="login-popup">
         <span class="close-icon" onclick="hidePopups()">&times;</span>
@@ -320,7 +320,7 @@
         <span id="otp-error" class="small-font" style="display: none; color: red;">Invalid OTP. Please try again.</span>
     </div>
 
-    <!-- Hero Section -->
+   
     <section class="hero-section">
         <div class="container">
             <div class="row align-items-center">
@@ -353,7 +353,7 @@
         </div>
     </section>
 
-    <!-- Plans Section -->
+    
     <section class="py-5">
         <div class="container">
             <h2 class="text-center mb-2">Popular Prepaid Plans</h2>
@@ -411,7 +411,7 @@
         </div>
     </section>
 
-    <!-- Services Section -->
+   
     <section class="py-5 bg-light">
         <div class="container">
             <h2 class="text-center mb-2">Our Services</h2>
@@ -442,7 +442,7 @@
         </div>
     </section>
 
-    <!-- Why Choose Us Section -->
+   
     <section class="py-5">
         <div class="container">
             <div class="section-heading">
@@ -486,7 +486,7 @@
         </div>
     </section>
 
-    <!-- Footer -->
+ 
     <footer class="footer">
         <div class="container">
             <div class="row">
@@ -535,46 +535,46 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
 
     <script>
-        // Mobile number validation and redirection
+       
         document.getElementById('recharge-button').addEventListener('click', function() {
             const mobileNo = document.getElementById('mobileno').value;
             const errorMessage = document.getElementById('error-message');
             
-            // Check if mobile number is valid (10 digits, no alphabets)
+           
             if (/^[0-9]{10}$/.test(mobileNo)) {
-                // Store mobile number in localStorage
+               
                 localStorage.setItem('mobileNumber', mobileNo);
-                // Redirect to plans page
+              
                 window.location.href = 'plans.html';
             } else {
                 errorMessage.style.display = 'block';
             }
         });
 
-        // Function to handle plan selection
+       
         function selectPlan(price, info) {
             const planDetails = {
                 price: '₹' + price,
                 info: info
             };
             
-            // Store plan details in localStorage
+        
             localStorage.setItem('planDetails', JSON.stringify(planDetails));
             
-            // Get mobile number from localStorage
+           
             const mobileNumber = localStorage.getItem('mobileNumber');
             
-            // If mobile number exists, proceed to transaction page
+            
             if (mobileNumber) {
                 window.location.href = 'transaction.html';
             } else {
-                // If no mobile number, show error or redirect to enter mobile number
+               
                 alert('Please enter your mobile number first');
                 document.getElementById('mobileno').focus();
             }
         }
 
-        // Function to hide popups
+      
         function hidePopups() {
             document.getElementById('popup-overlay').style.display = 'none';
             document.getElementById('login-popup').style.display = 'none';

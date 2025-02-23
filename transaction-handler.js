@@ -1,13 +1,13 @@
-// Local storage keys
+
 const STORAGE_KEYS = {
     CURRENT_PLAN: 'currentPlan',
     TRANSACTIONS: 'transactions',
     MOBILE_NUMBER: 'mobileNumber'
 };
 
-// Transaction page functionality
+
 function handlePaymentSubmission(paymentType) {
-    // Get plan details from localStorage
+   
     const planDetails = JSON.parse(localStorage.getItem('planDetails'));
     const mobileNumber = localStorage.getItem(STORAGE_KEYS.MOBILE_NUMBER);
     
@@ -16,7 +16,7 @@ function handlePaymentSubmission(paymentType) {
         return;
     }
 
-    // Create transaction record
+ 
     const transaction = {
         date: new Date().toLocaleDateString('en-US', {
             year: 'numeric',
@@ -29,38 +29,38 @@ function handlePaymentSubmission(paymentType) {
         id: Math.random().toString(36).substr(2, 9)
     };
 
-    // Save current plan
+   
     const currentPlan = {
         price: planDetails.price,
         info: planDetails.info,
         activationDate: new Date().toISOString(),
-        // Calculate expiry based on plan validity
+       
         expiryDate: calculateExpiryDate(planDetails.info)
     };
     
-    // Save to localStorage
+    
     localStorage.setItem(STORAGE_KEYS.CURRENT_PLAN, JSON.stringify(currentPlan));
     
-    // Update transactions history
+   
     const existingTransactions = JSON.parse(localStorage.getItem(STORAGE_KEYS.TRANSACTIONS) || '[]');
-    existingTransactions.unshift(transaction); // Add new transaction at the beginning
+    existingTransactions.unshift(transaction);
     localStorage.setItem(STORAGE_KEYS.TRANSACTIONS, JSON.stringify(existingTransactions));
 
-    // Show success popup
+    
     showPaymentPopup(mobileNumber, planDetails);
 }
 
-// Helper function to calculate plan expiry date
+
 function calculateExpiryDate(planInfo) {
     const validityMatch = planInfo.match(/(\d+)\s*Days/);
-    const daysValidity = validityMatch ? parseInt(validityMatch[1]) : 28; // Default to 28 if not found
+    const daysValidity = validityMatch ? parseInt(validityMatch[1]) : 28; 
     
     const expiryDate = new Date();
     expiryDate.setDate(expiryDate.getDate() + daysValidity);
     return expiryDate.toISOString();
 }
 
-// Profile page functionality
+
 function loadProfilePageData() {
     const currentPlan = JSON.parse(localStorage.getItem(STORAGE_KEYS.CURRENT_PLAN));
     const transactions = JSON.parse(localStorage.getItem(STORAGE_KEYS.TRANSACTIONS) || '[]');
@@ -79,11 +79,11 @@ function updateCurrentPlanDisplay(plan) {
     const today = new Date();
     const daysRemaining = Math.ceil((expiryDate - today) / (1000 * 60 * 60 * 24));
     
-    // Update plan price and details
+    
     document.querySelector('.plan-price').textContent = `${plan.price} - ${plan.info.split('|')[0].trim()}`;
     document.querySelector('.expiry-badge').textContent = `Expires in ${daysRemaining} days`;
     
-    // Update features based on plan info
+   
     const features = plan.info.split('|');
     const featureElements = document.querySelectorAll('.feature-item p');
     features.forEach((feature, index) => {

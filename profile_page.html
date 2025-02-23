@@ -294,10 +294,10 @@
 <body>
 
     <a href="Home.html" style="text-decoration: none; color:black; font-size :30px;margin-top: 10px;">MobiFuel</a>
-    <!-- Main Content -->
+    
     <div class="main-container">
         <div class="dashboard-grid">
-            <!-- Profile Section -->
+           
             <div class="profile-section">
                 <div class="profile-header">
                     <div class="profile-img-container">
@@ -328,7 +328,7 @@
                 </div>
             </div>
 
-            <!-- Current Plan Section -->
+            
             <div class="current-plan">
                 <div class="plan-header">
                     <div>
@@ -380,7 +380,7 @@
             </div>
         </div>
 
-        <!-- Transactions Section -->
+       
         <div class="transactions-section">
             <div class="transactions-header">
                 <h6>Recent Transactions</h6>
@@ -433,7 +433,7 @@
         </div>
     </div>
 
-    <!-- Edit Profile Modal -->
+    
     <div class="modal fade" id="editProfileModal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -474,7 +474,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Profile Management
         function loadProfile() {
             if (localStorage.getItem("userEmail")) {
                 document.getElementById("userEmail").innerText = localStorage.getItem("userEmail");
@@ -493,23 +492,22 @@
             }
         }
 
-        // Edit Profile Form Handling
+       
         document.getElementById("editProfileForm").addEventListener("submit", function(e) {
             e.preventDefault();
             
-            // Get form values
+          
             const name = document.getElementById("nameInput").value;
             const email = document.getElementById("emailInput").value;
             const primaryNumber = document.getElementById("primaryNumberInput").value;
             const alternateNumber = document.getElementById("alternateNumberInput").value;
             
-            // Save to localStorage
+          
             localStorage.setItem("userName", name);
             localStorage.setItem("userEmail", email);
             localStorage.setItem("primaryNumber", primaryNumber);
             localStorage.setItem("alternateNumber", alternateNumber);
-            
-            // Handle profile picture
+           
             const profilePicInput = document.getElementById("profilePicInput");
             if (profilePicInput.files && profilePicInput.files[0]) {
                 const reader = new FileReader();
@@ -520,23 +518,23 @@
                 reader.readAsDataURL(profilePicInput.files[0]);
             }
             
-            // Update display
+           
             document.getElementById("userName").innerText = name;
             document.getElementById("userEmail").innerText = email;
             document.getElementById("primaryNumber").innerText = primaryNumber;
             document.getElementById("alternateNumber").innerText = alternateNumber;
             
-            // Close modal
+         
             const modal = bootstrap.Modal.getInstance(document.getElementById('editProfileModal'));
             modal.hide();
             
-            // Show success message
+           
             alert("Profile updated successfully!");
         });
 
-        // Download Receipt Function
+       
         function downloadReceipt(dateId) {
-            // Create receipt content
+          
             const receiptContent = `
                 TeleRecharge Receipt
                 -------------------
@@ -549,7 +547,7 @@
                 Thank you for using TeleRecharge!
             `;
             
-            // Create blob and download
+           
             const blob = new Blob([receiptContent], { type: 'text/plain' });
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
@@ -561,11 +559,11 @@
             document.body.removeChild(a);
         }
 
-        // Initialize profile on load
+        
         document.addEventListener("DOMContentLoaded", function() {
             loadProfile();
             
-            // Initialize form with current values
+           
             document.getElementById("nameInput").value = localStorage.getItem("userName") || "John Anderson";
             document.getElementById("emailInput").value = localStorage.getItem("userEmail") || "john.anderson@email.com";
             document.getElementById("primaryNumberInput").value = localStorage.getItem("primaryNumber") || "+1 234 567 8900";
