@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: url('login image.png') no-repeat center center fixed;
+            background-size: cover;
+            position: relative;
+        }
+
+        /* Purple gradient overlay */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(106, 17, 203, 0.8), rgba(149, 14, 198, 0.8));
+        }
+
+        .login-container, .forgot-password-container, .reset-password-container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 400px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .login-container h2, .forgot-password-container h2, .reset-password-container h2 {
+            color: #6a11cb;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-control {
+            border-radius: 10px;
+            padding: 10px 15px;
+            margin-bottom: 0.5rem; /* Adjusted margin */
+        }
+
+        .btn-login, .btn-reset, .btn-confirm {
+            background: linear-gradient(135deg, #6a11cb, rgba(149, 14, 198, 0.8));
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 15px;
+            width: 100%;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .btn-login:hover, .btn-reset:hover, .btn-confirm:hover {
+            background: linear-gradient(135deg, #790fba, #6a11cb);
+        }
+
+        .forgot-password, .back-to-login {
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .forgot-password a, .back-to-login a {
+            color: #6a11cb;
+            text-decoration: none;
+        }
+
+        .forgot-password a:hover, .back-to-login a:hover {
+            text-decoration: underline;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .alert-success {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: none;
+            width: 300px; /* Adjusted width */
+            padding: 1rem;
+        }
+
+        .forgot-password-container, .reset-password-container {
+            display: none; /* Hidden by default */
+        }
+
+        @media (max-width: 768px) {
+            .alert-success {
+                top: 10px;
+                right: 10px;
+                width: 90%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Bootstrap Alert for Successful Login -->
+    <div class="alert alert-success alert-dismissible fade show" role="alert" id="successAlert">
+        <span>Login successful!</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <!-- Bootstrap Alert for Reset Password -->
+    <div class="alert alert-success alert-dismissible fade show" role="alert" id="resetPasswordAlert">
+        <span>Reset password sent successfully!</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <!-- Bootstrap Alert for Password Changed -->
+    <div class="alert alert-success alert-dismissible fade show" role="alert" id="passwordChangedAlert">
+        <span>Password changed successfully!</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <!-- Login Container -->
+    <div class="login-container" id="loginContainer">
+        <h2>Admin Login</h2>
+        <form id="loginForm">
+            <div class="mb-3">
+                <input type="text" class="form-control" id="adminName" placeholder="Admin Name" required>
+                <div class="error-message" id="adminNameError">Invalid admin name</div>
+            </div>
+            <div class="mb-3">
+                <input type="password" class="form-control" id="password" placeholder="Password" required>
+                <div class="error-message" id="passwordError">Wrong password</div>
+            </div>
+            <button type="submit" class="btn btn-login">Login</button>
+        </form>
+        <div class="forgot-password">
+            <a href="#" id="forgotPasswordLink">Forgot Password?</a>
+        </div>
+    </div>
+
+    <!-- Forgot Password Container -->
+    <div class="forgot-password-container" id="forgotPasswordContainer">
+        <h2>Forgot Password</h2>
+        <form id="forgotPasswordForm">
+            <div class="mb-3">
+                <input type="email" class="form-control" id="email" placeholder="Enter registered email" required>
+                <div class="error-message" id="emailError">Please enter a valid email</div>
+            </div>
+            <button type="submit" class="btn btn-reset">Reset Password</button>
+        </form>
+        <div class="back-to-login">
+            <a href="#" id="backToLoginLink">Back to Login</a>
+        </div>
+    </div>
+
+    <!-- Reset Password Container -->
+    <div class="reset-password-container" id="resetPasswordContainer">
+        <h2>Reset Password</h2>
+        <form id="resetPasswordForm">
+            <div class="mb-3">
+                <input type="password" class="form-control" id="newPassword" placeholder="New Password" required>
+                <div class="error-message" id="newPasswordError">Passwords do not match</div>
+            </div>
+            <div class="mb-3">
+                <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm Password" required>
+            </div>
+            <button type="submit" class="btn btn-confirm">Confirm Password</button>
+        </form>
+        <div class="back-to-login">
+            <a href="#" id="backToLoginLink2">Back to Login</a>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let admins = [];
+
+        async function fetchAdmins() {
+            try {
+                const response = await fetch('admins.json');
+                if (!response.ok) {
+                    throw new Error('Failed to fetch admin data');
+                }
+                admins = await response.json();
+                console.log('Admins loaded:', admins); // Debug: Check if data is loaded
+            } catch (error) {
+                console.error('Error fetching admin data:', error);
+            }
+        }
+
+        function showAlert(alertId, message) {
+            const alertDiv = document.getElementById(alertId);
+            if (alertDiv) {
+                alertDiv.querySelector('span').textContent = message;
+                alertDiv.style.display = 'block';
+                setTimeout(() => {
+                    alertDiv.style.display = 'none';
+                }, 2000); // Hide alert after 2 seconds
+            } else {
+                console.error('Alert element not found:', alertId);
+            }
+        }
+
+        // Login Form Functionality
+        document.getElementById('loginForm').addEventListener('submit', async function(event) {
+            event.preventDefault(); // Prevent form submission
+
+            const adminName = document.getElementById('adminName').value;
+            const password = document.getElementById('password').value;
+            const adminNameError = document.getElementById('adminNameError');
+            const passwordError = document.getElementById('passwordError');
+
+            // Reset error messages
+            adminNameError.style.display = 'none';
+            passwordError.style.display = 'none';
+
+            // Fetch admin data if not already fetched
+            if (admins.length === 0) {
+                await fetchAdmins();
+            }
+
+            // Validate admin credentials
+            const admin = admins.find(admin => admin.adminName === adminName && admin.password === password);
+
+            if (!admin) {
+                // Invalid credentials
+                adminNameError.style.display = 'block';
+                passwordError.style.display = 'block';
+                return;
+            }
+
+            // Successful login
+            showAlert('successAlert', 'Login successful!');
+            setTimeout(() => {
+                window.location.href = "dashboard.html"; // Redirect to dashboard
+            }, 2000); // Redirect after 2 seconds
+        });
+
+        // Forgot Password Link
+        document.getElementById('forgotPasswordLink').addEventListener('click', function(event) {
+            event.preventDefault();
+            document.getElementById('loginContainer').style.display = 'none'; // Hide login container
+            document.getElementById('forgotPasswordContainer').style.display = 'block'; // Show forgot password container
+        });
+
+        // Back to Login Link
+        document.getElementById('backToLoginLink').addEventListener('click', function(event) {
+            event.preventDefault();
+            document.getElementById('forgotPasswordContainer').style.display = 'none'; // Hide forgot password container
+            document.getElementById('loginContainer').style.display = 'block'; // Show login container
+        });
+
+        // Back to Login Link from Reset Password
+        document.getElementById('backToLoginLink2').addEventListener('click', function(event) {
+            event.preventDefault();
+            document.getElementById('resetPasswordContainer').style.display = 'none'; // Hide reset password container
+            document.getElementById('loginContainer').style.display = 'block'; // Show login container
+        });
+
+        // Forgot Password Form Functionality
+        document.getElementById('forgotPasswordForm').addEventListener('submit', async function(event) {
+            event.preventDefault(); // Prevent form submission
+
+            const email = document.getElementById('email').value;
+            const emailError = document.getElementById('emailError');
+
+            // Reset error message
+            emailError.style.display = 'none';
+
+            // Fetch admin data if not already fetched
+            if (admins.length === 0) {
+                await fetchAdmins();
+            }
+
+            // Check if email exists in admin data
+            const admin = admins.find(admin => admin.email === email);
+
+            if (!admin) {
+                // Email not found
+                emailError.style.display = 'block';
+                return;
+            }
+
+            // Show reset password container
+            document.getElementById('forgotPasswordContainer').style.display = 'none';
+            document.getElementById('resetPasswordContainer').style.display = 'block';
+        });
+
+        // Reset Password Form Functionality
+        document.getElementById('resetPasswordForm').addEventListener('submit', async function(event) {
+            event.preventDefault(); // Prevent form submission
+
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const newPasswordError = document.getElementById('newPasswordError');
+
+            // Reset error message
+            newPasswordError.style.display = 'none';
+
+            if (newPassword !== confirmPassword) {
+                // Passwords do not match
+                newPasswordError.style.display = 'block';
+                return;
+            }
+
+            // Update the password in the admin data
+            const email = document.getElementById('email').value;
+            const adminIndex = admins.findIndex(admin => admin.email === email);
+            admins[adminIndex].password = newPassword;
+
+            // Show success message
+            showAlert('passwordChangedAlert', 'Password changed successfully!');
+
+            // Redirect to login after 2 seconds
+            setTimeout(() => {
+                document.getElementById('resetPasswordContainer').style.display = 'none';
+                document.getElementById('loginContainer').style.display = 'block';
+            }, 2000);
+        });
+    </script>
+</body>
+</html>

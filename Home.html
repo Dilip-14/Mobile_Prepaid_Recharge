@@ -13,168 +13,211 @@
 
     <style>
         :root {
-            --primary-blue: #1a73e8;
-            --purple-gradient: linear-gradient(45deg, #6b21a8, #3730a3);
+            --primary-color: #6a2fbd;
+            --primary-light: #8a4af3;
+            --primary-dark: #4c1d9e;
+            --purple-gradient: linear-gradient(45deg, #6b21a8, #7e22ce);
+        }
+
+        body {
+            font-size: 1.05rem;
         }
 
         .hero-section {
-            background-color: var(--primary-blue);
-            padding: 4rem 0;
+            background: var(--purple-gradient);
+            padding: 5rem 0; 
             color: white;
         }
 
+        .hero-section h1 {
+            font-size: 2.8rem;
+            font-weight: bold;
+        }
+
+        .hero-section p {
+            font-size: 1.4rem; 
+        }
+
         .hero-image {
-            max-width: 400px;
+            max-width: 450px; 
             margin: auto;
         }
 
         .recharge-form {
-            max-width: 400px;
+            max-width: 450px; 
+        }
+
+        .form-control, .form-select {
+            padding: 0.8rem 1rem; 
+            font-size: 1.1rem;
         }
 
         .recharge-stats {
-            font-size: 0.9rem;
-            margin-top: 1rem;
+            font-size: 1rem;
+            margin-top: 1.2rem;
         }
 
         .plan-card {
-            border-radius: 12px;
-            padding: 1.5rem;
+            border-radius: 16px;
+            padding: 2rem; 
             border: 1px solid #eee;
             transition: all 0.3s ease;
+            margin-bottom: 1.5rem; 
         }
 
         .plan-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .plan-card h3 {
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: var(--primary-color);
         }
 
         .badge-custom {
-            padding: 0.4rem 1rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
+            padding: 0.5rem 1.2rem; 
+            border-radius: 25px;
+            font-size: 0.9rem;
         }
 
         .badge-popular {
-            background-color: #dcfce7;
-            color: #166534;
+            background-color: #e9d5ff;
+            color: #6b21a8;
         }
 
         .badge-best-value {
             background-color: #f3e8ff;
-            color: #6b21a8;
+            color: #7e22ce;
         }
 
         .badge-premium {
-            background-color: #fff7ed;
-            color: #c2410c;
+            background-color: #faf5ff;
+            color: #9333ea;
         }
 
         .service-card {
-            padding: 2rem;
-            border-radius: 12px;
+            padding: 2.5rem;
+            border-radius: 16px;
             border: 1px solid #eee;
             text-align: center;
+            height: 100%;
+            margin-bottom: 1.5rem; 
         }
 
         .service-icon {
-            width: 50px;
+            width: 60px; 
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.2rem;
+            font-size: 1.8rem; 
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-warning {
+            background: #f59e0b;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: white;
+        }
+
+        .btn-warning:hover {
+            background: #d97706;
+        }
+
+        .btn-outline-primary {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .feature-icon {
+            width: 50px; 
             height: 50px;
             border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 1rem;
-        }
-
-        .btn-primary {
-            background: var(--primary-blue);
-            border: none;
-            padding: 0.8rem 2rem;
-            border-radius: 8px;
-        }
-
-        .btn-outline-primary {
-            border-color: var(--primary-blue);
-            color: var(--primary-blue);
-        }
-
-        .feature-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 1rem;
+            margin-right: 1.5rem;
+            font-size: 1.5rem;
         }
 
         .feature-icon.security {
-            background-color: #dcfce7;
-            color: #166534;
+            background-color: #e9d5ff;
+            color: #6b21a8;
         }
 
         .feature-icon.payment {
-            background-color: #dbeafe;
-            color: #1e40af;
+            background-color: #ddd6fe;
+            color: #7e22ce;
         }
 
         .feature-icon.rewards {
-            background-color: #fef3c7;
-            color: #92400e;
+            background-color: #ede9fe;
+            color: #9333ea;
         }
 
-        .review-card {
-            padding: 1.5rem;
-            border-radius: 12px;
+        .feature-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem; 
             border: 1px solid #eee;
-            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+            margin-bottom: 1.5rem;
         }
 
-        .reviewer-img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            margin-right: 1rem;
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
         }
 
-        .star-rating {
-            color: #fbbf24;
+        .section-heading {
+            text-align: center;
+            margin-bottom: 3rem; 
         }
 
-        .faq-item {
-            border: 1px solid #eee;
-            border-radius: 8px;
-            margin-bottom: 1rem;
-            overflow: hidden;
-        }
-
-        .faq-question {
-            padding: 1rem;
-            background-color: #f8fafc;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .chat-support {
-            background-color: #f0f7ff;
-            border-radius: 12px;
-            padding: 1.5rem;
+        .section-heading h2 {
+            font-size: 2.5rem; 
+            color: var(--primary-color);
+            margin-bottom: 0.8rem;
         }
 
         .footer {
-            background-color: #1e293b;
+            background-color: #22124a; 
             color: white;
-            padding: 4rem 0 2rem;
+            padding: 5rem 0 2rem; 
+        }
+
+        .footer h5, .footer h6 {
+            font-size: 1.4rem; 
+            margin-bottom: 1.5rem;
+            color: white;
         }
 
         .footer-link {
-            color: #94a3b8;
+            color: #ddd6fe;
             text-decoration: none;
             display: block;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.8rem;
+            font-size: 1.1rem; 
         }
 
         .footer-link:hover {
@@ -182,96 +225,112 @@
         }
 
         .social-links a {
-            color: #94a3b8;
-            margin-right: 1rem;
-            font-size: 1.2rem;
+            color: #ddd6fe;
+            margin-right: 1.5rem;
+            font-size: 1.4rem; 
         }
 
         .store-badge {
-            height: 40px;
+            height: 50px; 
             margin-right: 1rem;
             margin-bottom: 1rem;
         }
 
-        .service-card, .card, .plan-card {
-            border-radius: 12px;
-            padding: 1.5rem;
-            border: 1px solid #eee;
-            transition: all 0.3s ease;
-            background: white;
-        }
-
-        .service-card:hover, .card:hover, .plan-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-            animation: none;
-        }
-
        
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-            20%, 40%, 60%, 80% { transform: translateX(5px); }
-        }
-        .feature-card {
-            background: white;
-            border-radius: 12px;
-            padding: 1.5rem;
-            border: 1px solid #eee;
-            transition: all 0.3s ease;
-            margin-bottom: 1rem;
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
         }
 
-        .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            z-index: 1001;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        .popup h5 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.4rem;
+        }
+
+        .popup .input-box {
+            width: 100%;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 1.1rem;
+        }
+
+        .popup button {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            width: 100%;
+            font-size: 1.1rem;
+        }
+
+        .close-icon {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .py-5 {
+            padding-top: 4rem !important;
+            padding-bottom: 4rem !important;
         }
 
        
         @media (max-width: 768px) {
             .hero-section {
-                padding: 2rem 0;
+                padding: 3rem 0;
+            }
+
+            .hero-section h1 {
+                font-size: 2.2rem;
             }
 
             .hero-image {
-                max-width: 300px;
+                max-width: 350px;
                 margin: 2rem auto 0;
             }
 
-            .plan-card, .service-card, .card {
-                margin-bottom: 1.5rem;
-            }
-
-            .footer {
-                padding: 2rem 0 1rem;
+            .plan-card, .service-card, .feature-card {
+                padding: 1.5rem;
             }
         }
 
         @media (max-width: 576px) {
             .hero-section h1 {
-                font-size: 2rem;
-            }
-
-            .plan-card, .service-card {
-                padding: 1rem;
+                font-size: 1.8rem;
             }
 
             .service-icon {
-                width: 40px;
-                height: 40px;
+                width: 50px;
+                height: 50px;
             }
-        }
-
-       
-        .faq-item {
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .section-heading {
-            text-align: center;
-            margin-bottom: 2.5rem;
         }
     </style>
 </head>
@@ -302,7 +361,7 @@
         </div>
     </nav>
     
-  
+    <!-- Popups -->
     <div class="popup-overlay" id="popup-overlay"></div>
     <div class="popup" id="login-popup">
         <span class="close-icon" onclick="hidePopups()">&times;</span>
@@ -320,7 +379,7 @@
         <span id="otp-error" class="small-font" style="display: none; color: red;">Invalid OTP. Please try again.</span>
     </div>
 
-   
+    <!-- Hero Section -->
     <section class="hero-section">
         <div class="container">
             <div class="row align-items-center">
@@ -338,10 +397,7 @@
                             Please enter a valid 10-digit mobile number
                         </div>
                         <button class="btn btn-warning w-100" id="recharge-button">Recharge Now</button>
-                        <div class="recharge-stats d-flex justify-content-between">
-                            <span>⚡ 2,547 recharges today</span>
-                            <span>🔒 100% Secure</span>
-                        </div>
+                        
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -353,7 +409,7 @@
         </div>
     </section>
 
-    
+    <!-- Popular Plans Section -->
     <section class="py-5">
         <div class="container">
             <h2 class="text-center mb-2">Popular Prepaid Plans</h2>
@@ -411,7 +467,7 @@
         </div>
     </section>
 
-   
+    <!-- Services Section -->
     <section class="py-5 bg-light">
         <div class="container">
             <h2 class="text-center mb-2">Our Services</h2>
@@ -419,21 +475,21 @@
             <div class="row">
                 <div class="col-md-4 mb-4">
                     <div class="service-card bg-white">
-                        <div class="service-icon bg-primary bg-opacity-10 text-primary">⚡</div>
+                        <div class="service-icon" style="background-color: #e9d5ff; color: #6b21a8;">⚡</div>
                         <h4>Instant Recharge</h4>
                         <p class="text-muted">Quick and hassle-free recharge process with instant confirmation</p>
                     </div>
                 </div>
                 <div class="col-md-4 mb-4">
                     <div class="service-card bg-white">
-                        <div class="service-icon bg-purple-gradient bg-opacity-10 text-primary">🌍</div>
+                        <div class="service-icon" style="background: var(--purple-gradient); color: white;">🌍</div>
                         <h4>International Roaming</h4>
                         <p class="text-muted">Stay connected worldwide with our international roaming packs</p>
                     </div>
                 </div>
                 <div class="col-md-4 mb-4">
                     <div class="service-card bg-white">
-                        <div class="service-icon bg-warning bg-opacity-10 text-warning">📺</div>
+                        <div class="service-icon" style="background-color: #f3e8ff; color: #9333ea;">📺</div>
                         <h4>OTT Subscriptions</h4>
                         <p class="text-muted">Get access to premium streaming services with select plans</p>
                     </div>
@@ -442,7 +498,7 @@
         </div>
     </section>
 
-   
+    <!-- Why Choose Us Section -->
     <section class="py-5">
         <div class="container">
             <div class="section-heading">
@@ -486,17 +542,17 @@
         </div>
     </section>
 
- 
+    <!-- Footer -->
     <footer class="footer">
         <div class="container">
             <div class="row">
                 <div class="col-lg-3 mb-4">
-                    <h5 class="mb-3">QuickCharge</h5>
+                    <h5 class="mb-3">MobiFuel</h5>
                     <p class="text-muted">Your trusted partner for instant mobile recharges</p>
                     <div class="social-links">
-                        <a href="#"><i class="fab fa-facebook"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="bi bi-facebook"></i></a>
+                        <a href="#"><i class="bi bi-twitter"></i></a>
+                        <a href="#"><i class="bi bi-instagram"></i></a>
                     </div>
                 </div>
                 
@@ -526,13 +582,10 @@
             </div>
             
             <div class="text-center pt-4 mt-4 border-top border-secondary">
-                <p class="text-muted mb-0">© 2025 QuickCharge. All rights reserved.</p>
+                <p class="text-muted mb-0">© 2025 MobiFuel. All rights reserved.</p>
             </div>
         </div>
     </footer>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
 
     <script>
        
@@ -542,47 +595,36 @@
             
            
             if (/^[0-9]{10}$/.test(mobileNo)) {
-               
-                localStorage.setItem('mobileNumber', mobileNo);
               
+                localStorage.setItem('mobileNumber', mobileNo);
+                
                 window.location.href = 'plans.html';
             } else {
                 errorMessage.style.display = 'block';
             }
         });
 
-       
+        
         function selectPlan(price, info) {
             const planDetails = {
                 price: '₹' + price,
                 info: info
             };
             
-        
+            
             localStorage.setItem('planDetails', JSON.stringify(planDetails));
             
            
             const mobileNumber = localStorage.getItem('mobileNumber');
             
-            
+           
             if (mobileNumber) {
                 window.location.href = 'transaction.html';
             } else {
-               
+              
                 alert('Please enter your mobile number first');
                 document.getElementById('mobileno').focus();
             }
-        }
-
-      
-        function hidePopups() {
-            document.getElementById('popup-overlay').style.display = 'none';
-            document.getElementById('login-popup').style.display = 'none';
-            document.getElementById('otp-popup').style.display = 'none';
-            document.getElementById('popup-mobileno').value = '';
-            document.getElementById('otp-input').value = '';
-            document.getElementById('popup-phoneerror').style.display = 'none';
-            document.getElementById('otp-error').style.display = 'none';
         }
     </script>
 </body>

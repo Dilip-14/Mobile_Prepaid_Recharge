@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Page</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <style>
         body {
             margin: 0;
@@ -56,13 +54,15 @@
             padding: 10px;
             border-radius: 10px;
             border: 2px solid #000;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             position: relative;
+            box-sizing: border-box;
         }
         #phoneerror {
             font-size: 12px;
             color: red;
             display: none;
+            margin-bottom: 10px;
         }
         #processing {
             display: none;
@@ -80,7 +80,7 @@
             padding: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             z-index: 1000;
-            width: 40%;
+            width: 80%;
             max-width: 300px;
             text-align: center;
             border-radius: 10px;
@@ -97,23 +97,10 @@
             background-color: rgba(0, 0, 0, 0.5);
             z-index: 999;
         }
-        .otp-input {
-            width: 100%;
-            padding: 10px;
-            border-radius: 10px;
-            border: 2px solid #000;
-            margin-bottom: 10px;
-            text-align: center;
-        }
-        .small-font {
-            font-size: 12px;
-            border: 1px;
-            background-color: #B596E5;
-            padding: 10px;
-            border-radius: 10px;
-        }
         .small-input {
-            width: 80%;
+            width: 90%;
+            margin: 10px auto 15px auto;
+            display: block;
         }
         .close-icon {
             position: absolute;
@@ -122,6 +109,59 @@
             cursor: pointer;
             font-size: 20px;
             color: #000;
+        }
+        .otp-container {
+            display: flex;
+            justify-content: space-between;
+            margin: 15px auto;
+            width: 90%;
+        }
+        .otp-digit {
+            width: 40px;
+            height: 40px;
+            text-align: center;
+            font-size: 18px;
+            border: 2px solid #B596E5;
+            border-radius: 5px;
+            margin: 0 5px;
+        }
+        .timer {
+            font-size: 14px;
+            color: #B596E5;
+            margin-bottom: 10px;
+        }
+        .resend-otp {
+            font-size: 14px;
+            color: #B596E5;
+            cursor: pointer;
+            text-decoration: underline;
+            display: none;
+            margin-bottom: 10px;
+        }
+        button {
+            background-color: #B596E5;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 15px;
+            width: 90%;
+        }
+        button:hover {
+            background-color: #9370DB;
+        }
+        h5 {
+            color: #B596E5;
+            margin-bottom: 15px;
+            margin-top: 10px;
+        }
+        #popup-phoneerror, #otp-error {
+            font-size: 12px;
+            color: red;
+            display: none;
+            margin: 8px 0;
         }
         @media (max-width: 768px) {
             .card {
@@ -143,8 +183,7 @@
                 font-size: 16px;
             }
         }
-    
-</style>
+    </style>
 </head>
 <body>
     <img src="2900293.jpg" alt="Image">
@@ -162,22 +201,39 @@
     <div class="popup" id="login-popup">
         <span class="close-icon" onclick="hidePopups()">&times;</span>
         <h5>Enter Mobile Number</h5>
-        <input type="text" id="popup-mobileno" class="input-box small-input" placeholder="Mobile no" required>
+        <input type="text" id="popup-mobileno" class="input-box small-input" placeholder="Mobile no" maxlength="10" required>
+        <span id="popup-phoneerror">Please enter a valid phone number.</span>
         <button onclick="generateOTP()">Generate OTP</button>
-        <span id="popup-phoneerror" style="display: none; color: red;">Please enter a valid phone number.</span>
     </div>
     
     <div class="popup" id="otp-popup">
         <span class="close-icon" onclick="hidePopups()">&times;</span>
         <h5>Enter OTP</h5>
-        <input type="text" id="otp-input" class="otp-input small-input" maxlength="5" placeholder="Enter OTP">
+        <div class="otp-container">
+            <input type="text" maxlength="1" class="otp-digit" id="digit-1" onkeyup="moveToNext(this, 'digit-2')">
+            <input type="text" maxlength="1" class="otp-digit" id="digit-2" onkeyup="moveToNext(this, 'digit-3')">
+            <input type="text" maxlength="1" class="otp-digit" id="digit-3" onkeyup="moveToNext(this, 'digit-4')">
+            <input type="text" maxlength="1" class="otp-digit" id="digit-4" onkeyup="moveToNext(this, 'digit-5')">
+            <input type="text" maxlength="1" class="otp-digit" id="digit-5">
+        </div>
+        <div class="timer" id="timer">25 seconds</div>
+        <div class="resend-otp" id="resend-otp" onclick="resendOTP()">Resend OTP</div>
+        <span id="otp-error">Invalid OTP. Please try again.</span>
         <button onclick="validateOTP()">Validate OTP</button>
-        <span id="otp-error" class="small-font" style="display: none; color: red;">Invalid OTP. Please try again.</span>
     </div>
 
     <script>
-        
-       
+        let generatedOTP = '';
+        let timerInterval;
+
+        // Allow only numbers in mobile number fields
+        document.getElementById("mobileno").addEventListener("input", function(e) {
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
+
+        document.getElementById("popup-mobileno").addEventListener("input", function(e) {
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
 
         document.getElementById("mobileno").addEventListener("keypress", function(event) {
             if (event.key === "Enter") {
@@ -185,12 +241,20 @@
             }
         });
 
+        // Allow only numbers in OTP input boxes
+        const otpDigits = document.querySelectorAll('.otp-digit');
+        otpDigits.forEach(digit => {
+            digit.addEventListener("input", function(e) {
+                this.value = this.value.replace(/[^0-9]/g, '');
+            });
+        });
+
         function validatePhoneNumber() {
             const phoneInput = document.getElementById("mobileno").value;
             const phoneError = document.getElementById("phoneerror");
             const processing = document.getElementById("processing");
             const phonePattern = /^\d{10}$/;
-    
+
             if (!phonePattern.test(phoneInput)) {
                 phoneError.style.display = "block";
                 processing.style.display = "none";
@@ -200,7 +264,7 @@
                 
                 localStorage.setItem("mobileNumber", phoneInput);
                 localStorage.removeItem("username"); 
-    
+
                 setTimeout(() => {
                     window.location.href = `plans.html?mobile=${phoneInput}`;
                 }, 2000);
@@ -219,15 +283,21 @@
             document.getElementById('otp-popup').style.display = 'none';
             document.getElementById('main-card').style.display = 'block';
             resetInputs();
+            clearInterval(timerInterval);
         }
 
         function resetInputs() {
             document.getElementById('mobileno').value = '';
             document.getElementById('popup-mobileno').value = '';
-            document.getElementById('otp-input').value = '';
-            document.getElementById('phoneerror').style.display = 'none';
             document.getElementById('popup-phoneerror').style.display = 'none';
             document.getElementById('otp-error').style.display = 'none';
+            
+            // Reset OTP fields
+            otpDigits.forEach(digit => {
+                digit.value = '';
+            });
+            
+            document.getElementById('resend-otp').style.display = 'none';
         }
 
         function generateOTP() {
@@ -239,33 +309,103 @@
                 if (isNaN(phoneInput.value)) {
                     phoneError.textContent = 'Please enter only numbers.';
                 } else {
-                    phoneError.textContent = 'Please enter a valid phone number.';
+                    phoneError.textContent = 'Please enter a valid 10-digit phone number.';
                 }
                 phoneError.style.display = 'block';
             } else {
                 phoneError.style.display = 'none';
                 document.getElementById('login-popup').style.display = 'none';
                 document.getElementById('otp-popup').style.display = 'block';
+
+                generatedOTP = Math.floor(10000 + Math.random() * 90000).toString();
+                alert(`Your OTP is: ${generatedOTP}`);
+                startTimer();
             }
+        }
+
+        function startTimer() {
+            // Reset timer if it's already running
+            clearInterval(timerInterval);
+            
+            let timeLeft = 25;
+            document.getElementById('timer').textContent = `${timeLeft} seconds`;
+            document.getElementById('resend-otp').style.display = 'none';
+            
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                document.getElementById('timer').textContent = `${timeLeft} seconds`;
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    document.getElementById('resend-otp').style.display = 'block';
+                }
+            }, 1000);
+        }
+
+        function resendOTP() {
+            generatedOTP = Math.floor(10000 + Math.random() * 90000).toString();
+            alert(`Your new OTP is: ${generatedOTP}`);
+            
+            // Reset OTP input fields
+            otpDigits.forEach(digit => {
+                digit.value = '';
+            });
+            document.getElementById('otp-error').style.display = 'none';
+            
+            startTimer();
         }
 
         function validateOTP() {
-            const otpInput = document.getElementById("otp-input").value;
-            const registeredUser = JSON.parse(localStorage.getItem("registeredUser"));
-    
-            if (otpInput === registeredUser.otp) {
+            let enteredOTP = '';
+            otpDigits.forEach(digit => {
+                enteredOTP += digit.value;
+            });
+        
+            if (enteredOTP === generatedOTP) {
                 localStorage.setItem("mobileNumber", document.getElementById("popup-mobileno").value);
-                localStorage.setItem("username", registeredUser.username); 
+                localStorage.setItem("username", "Dilip"); 
                 window.location.href = "profile_page.html";
             } else {
                 document.getElementById("otp-error").style.display = "block";
+                
+             
+                otpDigits.forEach(digit => {
+                    digit.value = '';
+                });
+                
+               
+                document.getElementById('digit-1').focus();
             }
         }
 
-        document.getElementById('popup-overlay').addEventListener('click', hidePopups);
-        document.body.addEventListener('click', function(event) {
-            if (!event.target.closest('.card') && !event.target.closest('.popup')) {
-                resetInputs();
+        function moveToNext(currentField, nextFieldId) {
+            if (currentField.value.length >= currentField.maxLength) {
+                document.getElementById(nextFieldId).focus();
+            }
+        }
+
+       
+        otpDigits.forEach(digit => {
+            digit.addEventListener('paste', (e) => {
+                e.preventDefault();
+                const pasteData = e.clipboardData.getData('text').slice(0, 5);
+                
+                if (/^\d+$/.test(pasteData)) {
+                    // Fill in the digits
+                    for (let i = 0; i < Math.min(pasteData.length, otpDigits.length); i++) {
+                        otpDigits[i].value = pasteData[i];
+                    }
+                    
+                    // Focus on the last filled digit
+                    if (pasteData.length < otpDigits.length) {
+                        otpDigits[pasteData.length].focus();
+                    }
+                }
+            });
+        });
+
+        document.getElementById('popup-overlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                hidePopups();
             }
         });
     </script>
